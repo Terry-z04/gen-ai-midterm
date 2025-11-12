@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UChicago MS-ADS Assistant | RAG System</title>
+    <!-- Marked.js for Markdown to HTML conversion -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- DOMPurify for safe HTML rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #800000 0%, #5c0000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .settings {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .settings-value {
+            font-size: 14px;
+            color: #800000;
+            font-weight: 600;
+            padding: 4px 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .chat-container {
+            height: 450px;
+            overflow-y: auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background: #800000;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.assistant {
+            background: white;
+            border: 2px solid #e0e0e0;
+            color: #333;
+        }
+
+        .message.system {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            text-align: center;
+            margin: 10px auto;
+            max-width: 100%;
+            font-size: 13px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: #800000;
+        }
+
+        .input-container button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #800000 0%, #5c0000 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .input-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(128, 0, 0, 0.4);
+        }
+
+        .input-container button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #800000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .example-questions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .example-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: #800000;
+            color: white;
+            border-color: #800000;
+        }
+
+        .metadata {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #800000;
+            color: white;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        /* Markdown formatting styles */
+        .message.assistant h1,
+        .message.assistant h2,
+        .message.assistant h3,
+        .message.assistant h4,
+        .message.assistant h5,
+        .message.assistant h6 {
+            margin: 12px 0 8px 0;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #2c3e50;
+        }
+
+        .message.assistant h1 { font-size: 1.8em; border-bottom: 2px solid #800000; padding-bottom: 5px; }
+        .message.assistant h2 { font-size: 1.5em; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+        .message.assistant h3 { font-size: 1.3em; color: #800000; }
+        .message.assistant h4 { font-size: 1.1em; }
+        .message.assistant h5 { font-size: 1em; }
+        .message.assistant h6 { font-size: 0.9em; color: #666; }
+
+        .message.assistant p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .message.assistant ul,
+        .message.assistant ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .message.assistant li {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .message.assistant ul li {
+            list-style-type: disc;
+        }
+
+        .message.assistant ol li {
+            list-style-type: decimal;
+        }
+
+        .message.assistant code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .message.assistant pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .message.assistant pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+            font-size: 0.85em;
+        }
+
+        .message.assistant blockquote {
+            border-left: 4px solid #800000;
+            padding-left: 15px;
+            margin: 10px 0;
+            color: #666;
+            font-style: italic;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+
+        .message.assistant a {
+            color: #800000;
+            text-decoration: none;
+            border-bottom: 1px dotted #800000;
+            transition: all 0.2s;
+        }
+
+        .message.assistant a:hover {
+            color: #5c0000;
+            border-bottom-color: #5c0000;
+        }
+
+        .message.assistant table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .message.assistant table th,
+        .message.assistant table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .message.assistant table th {
+            background: #800000;
+            color: white;
+            font-weight: 600;
+        }
+
+        .message.assistant table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .message.assistant strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .message.assistant em {
+            font-style: italic;
+            color: #555;
+        }
+
+        .message.assistant hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 15px 0;
+        }
+
+        .message.assistant img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 UChicago MS-ADS Assistant</h1>
+            <p>Advanced RAG System | Ask questions about the MS in Applied Data Science program</p>
+        </div>
+
+        <div class="settings">
+            <div class="settings-item">
+                <span class="settings-label">RAG Method:</span>
+                <span class="settings-value">Advanced RAG (HyDE + RAG Fusion)</span>
+            </div>
+            <div class="settings-item">
+                <span class="settings-label">Model:</span>
+                <span class="settings-value">GPT-4o Mini</span>
+            </div>
+        </div>
+
+        <div class="example-questions">
+            <button class="example-btn" onclick="askExample('What are the admission requirements?')">Admissions</button>
+            <button class="example-btn" onclick="askExample('Tell me about the curriculum')">Curriculum</button>
+            <button class="example-btn" onclick="askExample('What scholarships are available?')">Scholarships</button>
+            <button class="example-btn" onclick="askExample('Is the program STEM eligible?')">STEM/OPT</button>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="message system">
+                👋 Welcome! Ask me anything about the UChicago MS in Applied Data Science program.
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="questionInput" placeholder="Ask a question about the program..." onkeypress="handleKeyPress(event)">
+            <button id="sendBtn" onclick="sendQuestion()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let isProcessing = false;
+
+        // Configure marked.js options for better formatting
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: false,
+            mangle: false
+        });
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !isProcessing) {
+                sendQuestion();
+            }
+        }
+
+        function askExample(question) {
+            document.getElementById('questionInput').value = question;
+            sendQuestion();
+        }
+
+        function addMessage(text, type) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        function addMessageWithHTML(html, type) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = html;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        // Convert markdown to HTML safely
+        function markdownToHTML(markdown) {
+            try {
+                // Convert markdown to HTML using marked.js
+                const rawHTML = marked.parse(markdown);
+                // Sanitize HTML to prevent XSS attacks
+                const cleanHTML = DOMPurify.sanitize(rawHTML, {
+                    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                                   'ul', 'ol', 'li', 'a', 'code', 'pre', 'blockquote', 'hr', 'table',
+                                   'thead', 'tbody', 'tr', 'th', 'td', 'img', 'div', 'span'],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class']
+                });
+                return cleanHTML;
+            } catch (error) {
+                console.error('Error converting markdown:', error);
+                return markdown; // Fallback to plain text
+            }
+        }
+
+        async function sendQuestion() {
+            if (isProcessing) return;
+
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            // Hardcoded values - no dropdown selections
+            const method = 'advanced';
+            const model = 'gpt-4o-mini';
+            const sendBtn = document.getElementById('sendBtn');
+
+            // Add user message
+            addMessage(question, 'user');
+            input.value = '';
+
+            // Disable input
+            isProcessing = true;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<span class="loading"></span>';
+
+            // Add loading message
+            const loadingMsg = addMessage('Processing your question...', 'system');
+
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        method: method,
+                        model: model
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove loading message
+                loadingMsg.remove();
+
+                if (data.success) {
+                    // Convert markdown answer to HTML
+                    const answerHTML = markdownToHTML(data.answer);
+                    
+                    // Add metadata
+                    const tokens = data.tokens || {};
+                    const retrieval = data.retrieval_info || {};
+                    
+                    const metadata = `
+                        <div class="metadata">
+                            Method: <span class="badge">${retrieval.method || method}</span>
+                            Model: <span class="badge">${data.model || model}</span>
+                            Tokens: ${tokens.total || 'N/A'}
+                            ${retrieval.dynamic_triggered ? '<span class="badge">🔥 Dynamic</span>' : ''}
+                        </div>
+                    `;
+                    
+                    // Combine formatted answer with metadata
+                    addMessageWithHTML(answerHTML + metadata, 'assistant');
+                } else {
+                    addMessage('❌ Error: ' + (data.error || 'Unknown error'), 'system');
+                }
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage('❌ Error: ' + error.message, 'system');
+            } finally {
+                isProcessing = false;
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+            }
+        }
+    </script>
+</body>
+</html>
