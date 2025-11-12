@@ -55,26 +55,6 @@ coverage.xml
 .ipynb_checkpoints
 *.ipynb
 
-# ChromaDB - Vector database files
-chroma_db/
-*.sqlite3
-*.bin
-*.pickle
-
-# Model files and checkpoints (can be large)
-*.pth
-*.pt
-*.ckpt
-*.safetensors
-qlora-ads/
-models/
-checkpoints/
-
-# Scraped data (optional - comment out if you want to commit)
-*.json
-!package.json
-!tsconfig.json
-
 # Logs
 *.log
 logs/

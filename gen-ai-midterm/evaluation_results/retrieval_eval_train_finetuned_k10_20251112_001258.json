@@ -1,0 +1,40 @@
+{
+  "dataset": "train",
+  "system": "finetuned",
+  "k": 10,
+  "num_queries": 5,
+  "metrics": {
+    "recall@10": 4.6,
+    "mrr@10": 0.6,
+    "ndcg@10": 0.707847468141241,
+    "precision@10": 0.45999999999999996,
+    "n": 5
+  },
+  "individual_results": [
+    {
+      "query": "What are the foundational, optional courses offered in the UChicago DSI program and when are they held?",
+      "num_gold": 1,
+      "num_retrieved": 10
+    },
+    {
+      "query": "What is covered in the Python for Data Science course and when does it take place in the program?",
+      "num_gold": 1,
+      "num_retrieved": 10
+    },
+    {
+      "query": "What opportunities are available for DSI Postdoctoral Scholars to establish new relationships and translate their research into real-world impact?",
+      "num_gold": 1,
+      "num_retrieved": 10
+    },
+    {
+      "query": "What options for mentorship are offered to DSI Postdoctoral Scholars, and how do they differ in terms of support and guidance?",
+      "num_gold": 1,
+      "num_retrieved": 10
+    },
+    {
+      "query": "What statistical methods are covered in the Online Program - DSI and how are they applied in data analysis projects using R?",
+      "num_gold": 1,
+      "num_retrieved": 10
+    }
+  ]
+}

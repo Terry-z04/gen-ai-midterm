@@ -1,0 +1,79 @@
+{
+  "timestamp": "2025-11-11 15:36:01",
+  "dataset": "val",
+  "method": "advanced",
+  "total_tests": 3,
+  "successful": 3,
+  "failed": 0,
+  "success_rate": 1.0,
+  "avg_f1_score": 0.39327248140635557,
+  "avg_precision": 0.2966666666666667,
+  "avg_recall": 0.5962962962962962,
+  "avg_latency_seconds": 36.99846855799357,
+  "avg_tokens": 1275.3333333333333,
+  "individual_results": [
+    {
+      "question": "What scholarships are available for the program?",
+      "expected_answer": "Examples include the Data Science Institute Scholarship and the MS in Applied Data Science Alumni Scholarship. Scholarship availability and details may change; refer to the program's scholarship page for the latest.",
+      "generated_answer": "The MS in Applied Data Science program offers partial tuition merit-based scholarships to top applicants. These scholarships do not require a separate application; however, it is recommended that candidates submit their applications ahead of the early deadline to maximize their chances of securing a scholarship. Additionally, students are encouraged to explore scholarships offered through various civic and professional organizations, foundations, and state agencies (source: https://datascience.uchicago.edu/education/tuition-fees-aid/).",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 5,
+        "precision": 0.1,
+        "recall": 0.2777777777777778,
+        "f1_score": 0.14705882352941177
+      },
+      "latency_seconds": 82.89280080795288,
+      "tokens": {
+        "prompt": 1195,
+        "completion": 93,
+        "total": 1288
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "success": true,
+      "error": null
+    },
+    {
+      "question": "What are the minimum scores for the TOEFL and IELTS English Language Requirement?",
+      "expected_answer": "Minimum scores for the Master\u2019s in Applied Data Science program: TOEFL 102 (no subscore requirement) and IELTS 7 (no subscore requirement).",
+      "generated_answer": "The minimum scores for the English Language Requirement for the Master's in Applied Data Science program are as follows: a TOEFL score of 102 (with no subscore requirement) and an IELTS score of 7 (also with no subscore requirement) (Source 4).",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 11,
+        "precision": 0.44,
+        "recall": 0.7333333333333333,
+        "f1_score": 0.5499999999999999
+      },
+      "latency_seconds": 13.04120397567749,
+      "tokens": {
+        "prompt": 1231,
+        "completion": 54,
+        "total": 1285
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "success": true,
+      "error": null
+    },
+    {
+      "question": "Is there an application fee waiver?",
+      "expected_answer": "For application fee waiver questions, see the Physical Sciences Division fee waiver policy.",
+      "generated_answer": "Yes, there is a possibility for an application fee waiver. For questions regarding an application fee waiver, applicants should refer to the Physical Sciences Division fee waiver policy. (Source: https://datascience.uchicago.edu/education/masters-programs/ms-in-applied-data-science/how-to-apply/)",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 7,
+        "precision": 0.35,
+        "recall": 0.7777777777777778,
+        "f1_score": 0.48275862068965514
+      },
+      "latency_seconds": 15.061400890350342,
+      "tokens": {
+        "prompt": 1192,
+        "completion": 61,
+        "total": 1253
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "success": true,
+      "error": null
+    }
+  ]
+}

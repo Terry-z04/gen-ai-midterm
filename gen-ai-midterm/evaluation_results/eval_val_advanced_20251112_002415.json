@@ -1,0 +1,268 @@
+{
+  "timestamp": "2025-11-12 00:24:15",
+  "dataset": "val",
+  "method": "advanced",
+  "total_tests": 3,
+  "successful": 3,
+  "failed": 0,
+  "success_rate": 1.0,
+  "avg_f1_score": 0.32423120795213817,
+  "avg_precision": 0.2279541446208113,
+  "avg_recall": 0.5851851851851851,
+  "avg_latency_seconds": 11.563482761383057,
+  "avg_tokens": 1426.3333333333333,
+  "retrieval_metrics_avg": {
+    "contextual_relevancy": 0.287962962962963,
+    "contextual_recall": 0.7925925925925926,
+    "contextual_precision": 0.7916666666666666,
+    "mrr": 1.0
+  },
+  "generation_metrics_avg": {
+    "answer_relevance": 0.6888888888888888,
+    "faithfulness": 0.6706349206349206,
+    "correctness": 0.5851851851851851,
+    "clarity": 0.5015873015873016
+  },
+  "individual_results": [
+    {
+      "question": "What scholarships are available for the program?",
+      "expected_answer": "Examples include the Data Science Institute Scholarship and the MS in Applied Data Science Alumni Scholarship. Scholarship availability and details may change; refer to the program's scholarship page for the latest.",
+      "generated_answer": "The MS in Applied Data Science program offers partial tuition scholarships to top applicants, including the Data Science Institute Scholarship and the MS in Applied Data Science Alumni Scholarship. These scholarships do not require a separate application; however, it is recommended that candidates submit their applications ahead of the early deadline to maximize their chances of securing a scholarship. Additionally, merit scholarships are available for eligible applicants, and once you apply to the program, you will be automatically considered for a scholarship (sources: [Source 2](https://datascience.uchicago.edu/education/tuition-fees-aid/), [Source 3](https://datascience.uchicago.edu/education/tuition-fees-aid/)).",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 8,
+        "precision": 0.14814814814814814,
+        "recall": 0.4444444444444444,
+        "f1_score": 0.2222222222222222
+      },
+      "retrieval_metrics": {
+        "contextual_relevancy": {
+          "relevancy_score": 0.15000000000000002,
+          "avg_overlap": 0.15000000000000002,
+          "num_relevant_docs": 3
+        },
+        "contextual_recall": {
+          "recall_score": 0.5555555555555556,
+          "coverage": 0.5555555555555556,
+          "covered_words": 10,
+          "total_expected_words": 18
+        },
+        "contextual_precision": {
+          "precision_score": 0.5,
+          "useful_docs": 4,
+          "total_docs": 8,
+          "noise_docs": 4
+        },
+        "ranking_metrics": {
+          "mrr": 1.0,
+          "precision_at_1": 1.0,
+          "recall_at_1": 0.5,
+          "precision_at_3": 0.6666666666666666,
+          "recall_at_3": 1.0,
+          "precision_at_5": 0.4,
+          "recall_at_5": 1.0
+        }
+      },
+      "generation_metrics": {
+        "answer_relevance": {
+          "relevance_score": 0.6,
+          "word_overlap": 3,
+          "addresses_question": true,
+          "answer_length": 87
+        },
+        "faithfulness": {
+          "faithfulness_score": 0.8333333333333334,
+          "grounded": true,
+          "grounded_words": 45,
+          "total_answer_words": 54,
+          "unsupported_words": 9
+        },
+        "correctness": {
+          "correctness_score": 0.4444444444444444,
+          "accuracy": 0.14814814814814814,
+          "correct_words": 8,
+          "incorrect_words": 46,
+          "missing_words": 10
+        },
+        "clarity_coherence": {
+          "clarity_score": 0.5714285714285714,
+          "coherence_score": 0.2857142857142857,
+          "avg_sentence_length": 12.428571428571429,
+          "num_sentences": 7,
+          "num_words": 87,
+          "transitions_used": 2
+        }
+      },
+      "latency_seconds": 12.608888149261475,
+      "tokens": {
+        "prompt": 1360,
+        "completion": 141,
+        "total": 1501
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "num_retrieved_docs": 8,
+      "success": true,
+      "error": null
+    },
+    {
+      "question": "What are the minimum scores for the TOEFL and IELTS English Language Requirement?",
+      "expected_answer": "Minimum scores for the Master\u2019s in Applied Data Science program: TOEFL 102 (no subscore requirement) and IELTS 7 (no subscore requirement).",
+      "generated_answer": "The minimum scores required for the English language proficiency tests are as follows:\n\n- TOEFL iBT: 102 (no subscore requirement)\n- IELTS: 7 (no subscore requirement)\n\nFor more details, you can refer to the program's FAQ page [here](https://datascience.uchicago.edu/education/masters-programs/ms-in-applied-data-science/faqs/).",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 8,
+        "precision": 0.2857142857142857,
+        "recall": 0.5333333333333333,
+        "f1_score": 0.37209302325581395
+      },
+      "retrieval_metrics": {
+        "contextual_relevancy": {
+          "relevancy_score": 0.513888888888889,
+          "avg_overlap": 0.513888888888889,
+          "num_relevant_docs": 8
+        },
+        "contextual_recall": {
+          "recall_score": 0.9333333333333333,
+          "coverage": 0.9333333333333333,
+          "covered_words": 14,
+          "total_expected_words": 15
+        },
+        "contextual_precision": {
+          "precision_score": 1.0,
+          "useful_docs": 8,
+          "total_docs": 8,
+          "noise_docs": 0
+        },
+        "ranking_metrics": {
+          "mrr": 1.0,
+          "precision_at_1": 1.0,
+          "recall_at_1": 0.125,
+          "precision_at_3": 1.0,
+          "recall_at_3": 0.375,
+          "precision_at_5": 1.0,
+          "recall_at_5": 0.625
+        }
+      },
+      "generation_metrics": {
+        "answer_relevance": {
+          "relevance_score": 0.6666666666666666,
+          "word_overlap": 6,
+          "addresses_question": true,
+          "answer_length": 38
+        },
+        "faithfulness": {
+          "faithfulness_score": 0.5357142857142857,
+          "grounded": false,
+          "grounded_words": 15,
+          "total_answer_words": 28,
+          "unsupported_words": 13
+        },
+        "correctness": {
+          "correctness_score": 0.5333333333333333,
+          "accuracy": 0.2857142857142857,
+          "correct_words": 8,
+          "incorrect_words": 20,
+          "missing_words": 7
+        },
+        "clarity_coherence": {
+          "clarity_score": 0.3333333333333333,
+          "coherence_score": 0.0,
+          "avg_sentence_length": 12.666666666666666,
+          "num_sentences": 3,
+          "num_words": 38,
+          "transitions_used": 0
+        }
+      },
+      "latency_seconds": 11.8313729763031,
+      "tokens": {
+        "prompt": 1260,
+        "completion": 80,
+        "total": 1340
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "num_retrieved_docs": 8,
+      "success": true,
+      "error": null
+    },
+    {
+      "question": "Is there an application fee waiver?",
+      "expected_answer": "For application fee waiver questions, see the Physical Sciences Division fee waiver policy.",
+      "generated_answer": "Yes, there is a possibility for an application fee waiver. For questions regarding an application fee waiver, applicants are advised to refer to the Physical Sciences Division fee waiver policy. More information can be found on the program's application page: [How to Apply](https://datascience.uchicago.edu/education/masters-programs/ms-in-applied-data-science/how-to-apply/).",
+      "method": "advanced",
+      "similarity_metrics": {
+        "word_overlap": 7,
+        "precision": 0.25,
+        "recall": 0.7777777777777778,
+        "f1_score": 0.3783783783783784
+      },
+      "retrieval_metrics": {
+        "contextual_relevancy": {
+          "relevancy_score": 0.2,
+          "avg_overlap": 0.2,
+          "num_relevant_docs": 4
+        },
+        "contextual_recall": {
+          "recall_score": 0.8888888888888888,
+          "coverage": 0.8888888888888888,
+          "covered_words": 8,
+          "total_expected_words": 9
+        },
+        "contextual_precision": {
+          "precision_score": 0.875,
+          "useful_docs": 7,
+          "total_docs": 8,
+          "noise_docs": 1
+        },
+        "ranking_metrics": {
+          "mrr": 1.0,
+          "precision_at_1": 1.0,
+          "recall_at_1": 0.25,
+          "precision_at_3": 0.3333333333333333,
+          "recall_at_3": 0.25,
+          "precision_at_5": 0.4,
+          "recall_at_5": 0.5
+        }
+      },
+      "generation_metrics": {
+        "answer_relevance": {
+          "relevance_score": 0.8,
+          "word_overlap": 4,
+          "addresses_question": false,
+          "answer_length": 43
+        },
+        "faithfulness": {
+          "faithfulness_score": 0.6428571428571429,
+          "grounded": false,
+          "grounded_words": 18,
+          "total_answer_words": 28,
+          "unsupported_words": 10
+        },
+        "correctness": {
+          "correctness_score": 0.7777777777777778,
+          "accuracy": 0.25,
+          "correct_words": 7,
+          "incorrect_words": 21,
+          "missing_words": 2
+        },
+        "clarity_coherence": {
+          "clarity_score": 0.6,
+          "coherence_score": 0.0,
+          "avg_sentence_length": 8.6,
+          "num_sentences": 5,
+          "num_words": 43,
+          "transitions_used": 0
+        }
+      },
+      "latency_seconds": 10.250187158584595,
+      "tokens": {
+        "prompt": 1360,
+        "completion": 78,
+        "total": 1438
+      },
+      "retrieval_method": "Multi-Method (Standard + HyDE + RAG Fusion)",
+      "num_retrieved_docs": 8,
+      "success": true,
+      "error": null
+    }
+  ]
+}
