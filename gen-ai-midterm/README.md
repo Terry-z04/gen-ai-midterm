@@ -3,6 +3,26 @@
 
 An advanced Retrieval-Augmented Generation (RAG) system for the University of Chicago's MS in Applied Data Science program, featuring hybrid retrieval, dynamic web scraping, fallback guardrails, and comprehensive monitoring.
 
+Run program using:
+```
+cd gen-ai-midterm
+```
+```
+>....                                                                                                                            
+print('UChicago MS-ADS RAG System - Web App')
+print('='*60)
+print(f'\nStarting development server on port {port}...')
+print(f'Access at: http://localhost:{port}')
+print('='*60 + '\n')
+
+app.run(
+    host='0.0.0.0',
+    port=port,
+    debug=True,
+    use_reloader=False
+)
+"
+```
 ---
 
 ## 📋 Table of Contents
