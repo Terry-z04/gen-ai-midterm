@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: uchicago-msads-rag-system
+    runtime: python
+    region: oregon
+    plan: standard
+    branch: main
+    rootDir: gen-ai-midterm
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 4 --timeout 120 --worker-class sync app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.18
+      - key: SECRET_KEY
+        generateValue: true
+      # OpenAI API Configuration
+      - key: OPENAI_API_KEY
+        sync: false
+      # Firecrawl API Configuration
+      - key: FIRECRAWL_API_KEY
+        sync: false
+      # LangSmith Configuration
+      - key: LANGCHAIN_TRACING_V2
+        value: "true"
+      - key: LANGCHAIN_ENDPOINT
+        value: https://api.smith.langchain.com
+      - key: LANGCHAIN_API_KEY
+        sync: false
+      - key: LANGCHAIN_PROJECT
+        value: uchicago-msads-rag
+      # ChromaDB Configuration
+      - key: CHROMA_DB_PATH
+        value: ./chroma_db
+      - key: CHROMA_COLLECTION_NAME
+        value: uchicago_msads_docs
+      # Model Configuration
+      - key: EMBEDDING_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+      - key: LLM_MODEL
+        value: gpt-4o
+      - key: LLM_TEMPERATURE
+        value: 0.7
+    healthCheckPath: /health
+    autoDeploy: true
